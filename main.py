@@ -16,7 +16,7 @@ from vocode.streaming.telephony.server.base import (
     TwilioInboundCallConfig,
     TelephonyServer,
 )
-from vocode.streaming.models.synthesizer import GoogleSynthesizerConfig
+from vocode.streaming.models.synthesizer import ElevenLabsSynthesizerConfig
 
 # Imports our custom actions
 from speller_agent import SpellerAgentFactory
@@ -88,11 +88,11 @@ AGENT_CONFIG = ChatGPTAgentConfig(
 # the env variable DEEPGRAM_API_KEY to your Deepgram API key.
 # https://deepgram.com/
 
-# Using Google TTS for speech synthesis - it's free and reliable
-# You can change the voice to other Google voices
-SYNTH_CONFIG = GoogleSynthesizerConfig.from_telephone_output_device(
-    voice_name="en-US-Neural2-F",  # Female voice
-    language_code="en-US"
+# Using ElevenLabs for speech synthesis - high quality, natural voices
+# You can change the voice_id to any ElevenLabs voice you have access to
+SYNTH_CONFIG = ElevenLabsSynthesizerConfig.from_telephone_output_device(
+    api_key=os.getenv("ELEVEN_LABS_API_KEY"),
+    voice_id="21m00Tcm4TlvDq8ikWAM"  # Rachel voice - change to your preferred voice
 )
 
 
