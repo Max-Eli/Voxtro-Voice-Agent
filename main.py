@@ -16,7 +16,7 @@ from vocode.streaming.telephony.server.base import (
     TwilioInboundCallConfig,
     TelephonyServer,
 )
-from vocode.streaming.models.synthesizer import StreamElementsSynthesizerConfig # ,ElevenLabsSynthesizerConfig
+from vocode.streaming.models.synthesizer import DeepgramSynthesizerConfig
 
 # Imports our custom actions
 from speller_agent import SpellerAgentFactory
@@ -88,13 +88,12 @@ AGENT_CONFIG = ChatGPTAgentConfig(
 # the env variable DEEPGRAM_API_KEY to your Deepgram API key.
 # https://deepgram.com/
 
-# We use StreamElements for speech synthesis here because it's fast and
-# free, but there are plenty of other options that are slower but
-# higher quality (like Eleven Labs below, needs key) available in
-# vocode.streaming.models.synthesizer.
-SYNTH_CONFIG = StreamElementsSynthesizerConfig.from_telephone_output_device()
-# SYNTH_CONFIG = ElevenLabsSynthesizerConfig.from_telephone_output_device(
-#   api_key=os.getenv("ELEVEN_LABS_API_KEY") or "<your EL token>")
+# Using Deepgram for speech synthesis - it's fast and high quality
+# You can change the voice to other Deepgram voices like:
+# "aura-asteria-en", "aura-luna-en", "aura-stella-en", "aura-athena-en", "aura-hera-en"
+SYNTH_CONFIG = DeepgramSynthesizerConfig.from_telephone_output_device(
+    voice="aura-asteria-en"
+)
 
 
 
