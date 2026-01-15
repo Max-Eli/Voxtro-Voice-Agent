@@ -4,12 +4,9 @@ import typing
 from vocode.streaming.agent.chat_gpt_agent import ChatGPTAgent
 from vocode.streaming.models.agent import AgentConfig, AgentType, ChatGPTAgentConfig
 from vocode.streaming.agent.base_agent import BaseAgent, RespondAgent
-from vocode.streaming.models.agent import AgentFactory
-
 
 class SpellerAgentConfig(AgentConfig, type="agent_speller"):
     pass
-
 
 class SpellerAgent(RespondAgent[SpellerAgentConfig]):
     def __init__(self, agent_config: SpellerAgentConfig):
@@ -21,7 +18,17 @@ class SpellerAgent(RespondAgent[SpellerAgentConfig]):
         conversation_id: str,
         is_interrupt: bool = False,
     ) -> Tuple[Optional[str], bool]:
-        return "".join(c + " " for c in human_input), False
+        return "OK, I'll spell that out for you. " + "".join(
+            c + " " for c in human_input
+        ), False
+
+
+# Custom AgentFactory since vocode doesn't export one
+class AgentFactory:
+    def create_agent(
+        self, agent_config: AgentConfig, logger: Optional[logging.Logger] = None
+    ) -> BaseAgent:
+        raise NotImplementedError
 
 
 class SpellerAgentFactory(AgentFactory):
