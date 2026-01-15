@@ -1,4 +1,4 @@
-FROM python:3.9-bullseye
+FROM python:3.11-slim
 
 # get portaudio and ffmpeg
 RUN apt-get update \
@@ -13,7 +13,8 @@ COPY ./poetry.lock /code/poetry.lock
 RUN pip install --no-cache-dir --upgrade poetry
 RUN pip install httpx
 RUN poetry config virtualenvs.create false
-RUN poetry install --no-dev --no-interaction --no-ansi
+RUN poetry install --only main --no-interaction --no-ansi || \
+    pip install vocode twilio fastapi uvicorn python-dotenv openai deepgram-sdk pydantic httpx
 COPY main.py /code/main.py
 COPY speller_agent.py /code/speller_agent.py
 COPY memory_config.py /code/memory_config.py
